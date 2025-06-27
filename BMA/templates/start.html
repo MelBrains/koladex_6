@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Book Search</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body class="bg-light">
+  <div class="container mt-5">
+
+    <!-- 🔐 Logout Button -->
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <h2 class="mb-0">Welcome, {{ username }} 👋</h2>
+      <a href="{{ url_for('logout') }}" class="btn btn-outline-secondary btn-sm">Logout</a>
+    </div>
+
+    <p>What kind of book would you like to read this month?</p>
+
+    <form method="POST" class="mb-4">
+      <input type="text" name="search_query" class="form-control mb-2" placeholder="e.g., wealth, happiness" required>
+      <button type="submit" class="btn btn-success">Search on PDFDrive</button>
+    </form>
+
+    {% if query %}
+      <!-- 📚 Redirect to PDFDrive -->
+      <div class="alert alert-info">
+        <p>Searching PDFDrive for: <strong>{{ query }}</strong></p>
+        <a href="https://www.pdfdrive.com/search?q={{ query }}" target="_blank" class="btn btn-outline-primary">View Results</a>
+
+        <form method="POST" action="{{ url_for('recommend') }}" class="d-inline">
+          <input type="hidden" name="topic" value="{{ query }}">
+          <button type="submit" class="btn btn-success ms-2">✅ Done</button>
+        </form>
+      </div>
+    {% endif %}
+  </div>
+</body>
+</html>
